@@ -1,0 +1,89 @@
+Change log:
+Environment: php 5.5
+
+= Prereqs =
+
+
+* kaazing-gateway
+* apache-activemq
+
+Resources:
+https://www.youtube.com/watch?v=gXF4K0xMyYM
+
+
+
+= Post-Base Install =
+
+== Fixed Errors ==
+
+* Index.php
+** Added, date_default_timezone_set("America/New_York");
+* Issues in LoadService() - system\bootstrap\bootstrap.php
+** MMap, Proc
+
+=== Error ===
+EyeErrorException:
+  date(): It is not safe to rely on the system's timezone settings. You are *required* to use the
+  date.timezone setting or the date_default_timezone_set() function. In case you used any of those
+  methods and you are still getting this warning, you most likely misspelled the timezone
+  identifier. We selected the timezone 'UTC' for now, but please set date.timezone to select
+  your timezone.
+
+  /eyeos/system/kernel/libs/log4php/appenders/LoggerAppenderDailyFile.php (line 86)
+    __lib_exceptions_error_handler(2, "date(): It is not safe to rely on the sy"[..], "C:\prog\Apache24\htdocs\eyeos\eyeos\syst"[..], 86, array(2))
+  /eyeos/system/kernel/libs/log4php/appenders/LoggerAppenderDailyFile.php (line 86)
+    date("Ymd")setFile("./system/conf/libs/log4php/logs/eyeos_%s"[..])
+  /eyeos/system/kernel/libs/log4php/LoggerReflectionUtils.php (line 148)
+    call_user_func(array(2), "./system/conf/libs/log4php/logs/eyeos_%s"[..])
+  /eyeos/system/kernel/libs/log4php/configurators/LoggerConfiguratorXml.php (line 342)
+    setter(LoggerAppenderDailyFile, "file", "./system/conf/libs/log4php/logs/eyeos_%s"[..])
+    tagOpen(resource, "PARAM", array(2))
+  /eyeos/system/kernel/libs/log4php/configurators/LoggerConfiguratorXml.php (line 178)
+    xml_parse(resource, " <"[..], 1)
+  /eyeos/system/kernel/libs/log4php/configurators/LoggerConfiguratorXml.php (line 154)
+    parse(" <"[..], LoggerHierarchy)
+  /eyeos/system/kernel/libs/log4php/configurators/LoggerConfiguratorXml.php (line 143)
+    doConfigureByString(" <"[..], LoggerHierarchy)
+  /eyeos/system/kernel/libs/log4php/configurators/LoggerConfiguratorXml.php (line 126)
+    doConfigure("./system/conf/libs/log4php/configuration"[..], LoggerHierarchy)
+  /eyeos/system/kernel/libs/log4php/Logger.php (line 623) configure(LoggerHierarchy, "./system/conf/libs/log4php/configuration"[..])
+  /eyeos/system/kernel/libs/log4php/Logger.php (line 347) initialize()
+  /eyeos/system/kernel/libs/log4php/log4php.php (line 41)
+    getLogger("system.libs.log4php")
+    lib_log4php_load()
+  /eyeos/system/bootstrap/Bootstrap.php (line 118) call_user_func("lib_log4php_load")
+  /eyeos/system/bootstrap/Bootstrap.php (line 110) loadLibrary("log4php")
+  /eyeos/system/bootstrap/Bootstrap.php (line 65) loadLibraries(array(3))
+
+== Fixing up ==
+Added the following to fix, date() error
+date_default_timezone_set('America/New_York');
+
+=== Error ===
+  EyeBootstrapException: Cannot load service 'MMap'.
+  Exception:
+    ----
+    EyeErrorException: Declaration of MMapAPI::getInstance() should be compatible with Kernel::getInstance($class)
+    /eyeos/system/kernel/services/MMap/implementations/MMapAPI.php (line 38)
+    /eyeos/system/kernel/services/MMap/implementations/MMapAPI.php (line 38)
+      __lib_exceptions_error_handler(2048, "Declaration of MMapAPI::getInstance() sh"[..],
+        "C:\prog\Apache24\htdocs\eyeos\eyeos\syst"[..], 38, array(1))
+    /eyeos/system/bootstrap/Bootstrap.php (line 81) require_once("C:\prog\Apache24\htdocs\eyeos\eyeos\syst"[..])
+    /eyeos/system/bootstrap/Bootstrap.php (line 151) load("./system/kernel/services/MMap//implement"[..])
+    /eyeos/system/bootstrap/Bootstrap.php (line 175) loadService("MMap")
+    /eyeos/system/bootstrap/Bootstrap.php (line 71) loadServices(array(3))
+    ----
+  /eyeos/system/bootstrap/Bootstrap.php (line 161)
+  /eyeos/system/bootstrap/Bootstrap.php (line 175) loadService("MMap")
+  /eyeos/system/bootstrap/Bootstrap.php (line 71)
+    loadServices(array(3)) Caused by: EyeErrorException: Declaration of MMapAPI::getInstance()
+    should be compatible with Kernel::getInstance($class)
+  /eyeos/system/kernel/services/MMap/implementations/MMapAPI.php (line 38)
+  /eyeos/system/kernel/services/MMap/implementations/MMapAPI.php (line 38)
+    __lib_exceptions_error_handler(2048, "Declaration of MMapAPI::getInstance() sh"[..],
+      "C:\prog\Apache24\htdocs\eyeos\eyeos\syst"[..], 38, array(1))
+  /eyeos/system/bootstrap/Bootstrap.php (line 81) require_once("C:\prog\Apache24\htdocs\eyeos\eyeos\syst"[..])
+  /eyeos/system/bootstrap/Bootstrap.php (line 151) load("./system/kernel/services/MMap//implement"[..])
+  /eyeos/system/bootstrap/Bootstrap.php (line 175) loadService("MMap")
+  /eyeos/system/bootstrap/Bootstrap.php (line 71) loadServices(array(3))
+

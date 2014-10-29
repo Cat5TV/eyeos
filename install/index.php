@@ -57,7 +57,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
                 <div id="topbar" class="topbar">
                     <img src="logo-eyeos.png" id="logo" class="logo" />
                     <div id="logotext" class="logotext">
-                        <? echo toptext(); ?>
+                        <?php echo toptext(); ?>
                     </div>
                 </div>
                 <span id="sidebar" class="sidebar">

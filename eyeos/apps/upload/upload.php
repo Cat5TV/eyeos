@@ -66,7 +66,7 @@ abstract class UploadApplication extends EyeosApplicationExecutable {
                 function startProgress() {
                     document.getElementById("fileForm").style.display = "none";
                     document.getElementById("progressbar").style.display = "block";
-                    
+
                     var http_request = false;
                     var url = "index.php";
                     if (window.XMLHttpRequest) {
@@ -94,7 +94,7 @@ abstract class UploadApplication extends EyeosApplicationExecutable {
 								percent = 0;
 							}
 							var newWidth = parseInt(percent * 4.1) + "px";
-							
+
 							document.getElementById("internal").style.width = newWidth;
 							document.getElementById("internalText").innerHTML = "<center>"+parseInt(percent)+"%</center>";
 							setTimeout("startProgress();", 1000);
@@ -106,7 +106,7 @@ abstract class UploadApplication extends EyeosApplicationExecutable {
 							}
 						}
                     };
-                    var checknum = "<? echo $currentProc->getChecknum(); ?>";
+                    var checknum = "<?php echo $currentProc->getChecknum(); ?>";
                     http_request.open("POST", url+"?checknum=" + checknum + "&message=getProgress", true);
                     http_request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
                     setTimeout(function() {
@@ -182,7 +182,7 @@ abstract class UploadApplication extends EyeosApplicationExecutable {
                             while (match = re.exec(xhr.responseText)) {
                                 eval(match[1]);
                             }
-                        }      
+                        }
                     };
                 }
 
@@ -364,7 +364,7 @@ abstract class UploadApplication extends EyeosApplicationExecutable {
 
         return $return;
     }
-    
+
     public static function getProgress($params) {
           $name = basename($params);
           $dir = ini_get('uploadprogress.file.filename_template');

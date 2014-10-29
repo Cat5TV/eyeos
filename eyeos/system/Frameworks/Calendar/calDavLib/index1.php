@@ -1,4 +1,4 @@
-<? 
+<?php
 include_once("calendar.class.php");
 $cal = new Calendar(
                         'https://www.google.com/calendar/dav/cis.dev22@gmail.com/events/',

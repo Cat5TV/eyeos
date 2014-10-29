@@ -1,45 +1,50 @@
 <?php
+/* Change Log:
+ *  2014-1028
+ *    + date_default_timezone_set('America/New_York'); to suppress, date(), errors
+ */
+
 /*
 *                 eyeos - The Open Source Cloud's Web Desktop
 *                               Version 2.0
-*                   Copyright (C) 2007 - 2010 eyeos Team 
-* 
+*                   Copyright (C) 2007 - 2010 eyeos Team
+*
 * This program is free software; you can redistribute it and/or modify it under
 * the terms of the GNU Affero General Public License version 3 as published by the
 * Free Software Foundation.
-* 
+*
 * This program is distributed in the hope that it will be useful, but WITHOUT
 * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 * FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
 * details.
-* 
+*
 * You should have received a copy of the GNU Affero General Public License
-* version 3 along with this program in the file "LICENSE".  If not, see 
+* version 3 along with this program in the file "LICENSE".  If not, see
 * <http://www.gnu.org/licenses/agpl-3.0.txt>.
-* 
+*
 * See www.eyeos.org for more details. All requests should be sent to licensing@eyeos.org
-* 
+*
 * The interactive user interfaces in modified source and object code versions
 * of this program must display Appropriate Legal Notices, as required under
 * Section 5 of the GNU Affero General Public License version 3.
-* 
+*
 * In accordance with Section 7(b) of the GNU Affero General Public License version 3,
 * these Appropriate Legal Notices must retain the display of the "Powered by
-* eyeos" logo and retain the original copyright notice. If the display of the 
+* eyeos" logo and retain the original copyright notice. If the display of the
 * logo is not reasonably feasible for technical reasons, the Appropriate Legal Notices
-* must display the words "Powered by eyeos" and retain the original copyright notice. 
+* must display the words "Powered by eyeos" and retain the original copyright notice.
 */
 
 if(count(ob_get_status(true)) > 0) {
-    ob_end_clean();  
+    ob_end_clean();
 }
 
-error_reporting(E_ALL); 
+error_reporting(E_ALL);
 
 // Disable register_globals
 if (ini_get('register_globals')) {
 	$requestKeys = array_keys($_REQUEST);
-	
+
 	foreach ($requestKeys as $key) {
 		if ($_REQUEST[$key] === $$key) {
 			unset($$key);
@@ -71,12 +76,16 @@ $__startTime = microtime(true);
 $__startMemory = memory_get_usage();
 
 try {
+
+  // Added 2014-1028 to suppress, date() error.
+  date_default_timezone_set("America/New_York");
+
 	//Load bootstrap script
 	require './' . SYSTEM_DIR . '/' . BOOT_DIR . '/Bootstrap.php';
 
 	//Startup
 	Bootstrap::init();
-	
+
 	$__endBootstrapTime = microtime(true);
 	$__endBootstrapMemory = memory_get_usage();
 	//Process incoming request through MMap
@@ -93,19 +102,22 @@ try {
 			. sprintf('%01.2f', ($__endBootstrapMemory - $__startMemory) / 1024) . 'KB) ['
 			. $request->getUrl() . ']');
 	}
-	
+
 } catch (Exception $e) {
 	// Log and display the exception that reached this section
 	// (this should normally *not* happen in a fully set-up production environment)
-	
+
 	// Log with log4php if available
 	if (class_exists('Logger')) {
 		$logger = Logger::getRootLogger();
 		$logger->fatal('Uncaught exception detected in the root page! It is likely to come from the bootstrap.');
 		$logger->fatal(ExceptionStackUtil::getStackTrace($e, false));
 	}
-	
-	echo 'There is an error in this eyeOS installation, please contact the system administrator';
+
+  // this happened on base eyeOS v2.5
+	echo "<p>There is an error in this eyeOS installation, please contact the system administrator</p>";
+  echo "<h2>Error:</h2>"
+  . "<blockquote>$e</blockquote>";
 	exit;
 }
 
@@ -122,5 +134,3 @@ function changeCWD() {
 	chdir($basedir . REAL_EYE_ROOT);
 	//Loaded before kernel for kernel utf8 compatibility
 }
-
-?>
