@@ -38,9 +38,9 @@
 class MMapGetApp extends Kernel implements IMMap {
 	private static $Logger = null;
 	
-	public static function getInstance() {
+	public static function getInstance($class = __CLASS__) {
 		self::$Logger = Logger::getLogger('system.services.MMap.MMapGetApp');
-		return parent::getInstance(__CLASS__);
+		return parent::getInstance($class);
 	}
 	 
 	public function checkRequest(MMapRequest $request) {
@@ -357,8 +357,8 @@ class AppExecutionContext {
 class AppMobileExecutionContext extends AppExecutionContext {
 
     public function __construct() {
-		$this->setArgs(new ArrayList());
-	}
+        parent::__construct();
+    }
 
     public function initFromRequest(MMapRequest $request) {
         $this->setRequest($request);
@@ -379,8 +379,7 @@ class AppMobileExecutionContext extends AppExecutionContext {
         }
     }
 
-    public function setApplicationDescriptor(EyeMobileApplicationDescriptor $appDesc) {
+    public function setApplicationDescriptor(\EyeosApplicationDescriptor $appDesc) {
         $this->applicationDescriptor = $appDesc;
     }
 }
-?>

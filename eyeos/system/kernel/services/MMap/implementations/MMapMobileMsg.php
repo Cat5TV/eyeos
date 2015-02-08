@@ -36,7 +36,7 @@
  * @subpackage MMap
  */
 class MMapMobileMsg extends Kernel implements IMMap {
-	public static function getInstance() {
+	public static function getInstance($class = __CLASS__) {
 		return parent::getInstance(__CLASS__);
 	}
 

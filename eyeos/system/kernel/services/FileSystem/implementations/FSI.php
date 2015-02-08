@@ -65,7 +65,11 @@ abstract class FSI extends Kernel implements IFileSystem, IUrlTranslator {
 	
 	public static function getFile($path, $params = null) {
 		self::$Logger = Logger::getLogger('Kernel.FSI');
-		self::$Logger->debug("getFile called with path: \"" . $path . "\" and params: " . $params );
+                $pparams = 'null';
+                if(is_array($params)) {
+                    $pparams = join(',', $params);
+                }
+		self::$Logger->debug("getFile called with path: \"" . $path . "\" and params: " . $pparams );
 		return FileObjectsFactory::getInstance()->getFile($path, $params);
 	}
 	

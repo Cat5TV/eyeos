@@ -41,12 +41,12 @@ qx.Class.define('eyeos.application.howto', {
 		//Get the language of the user
 		var meta = eyeos.getCurrentUserData().metadata;
 		if(typeof meta['eyeos.user.language'] != undefined) {
-			this.__url = 'http://resources.eyeos.org/howto/?ln='+meta['eyeos.user.language'];
+			this.__url = '/howto/?ln='+meta['eyeos.user.language'];
 		}
     },
 
     members: {
-        __url: 'http://resources.eyeos.org/howto/',
+        __url: '/howto/',
         __customWidth: 850,
         __customHeight: 450,
         drawGUI: function() {

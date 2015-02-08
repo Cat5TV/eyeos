@@ -38,9 +38,9 @@
 class MMapExternApp extends Kernel implements IMMap {
 	private static $Logger = null;
 	
-	public static function getInstance() {
+	public static function getInstance($class = __CLASS__) {
 		self::$Logger = Logger::getLogger('system.services.MMap.MMapExternApp');
-		return parent::getInstance(__CLASS__);
+		return parent::getInstance($class);
 	}
 	 
 	public function checkRequest(MMapRequest $request) {

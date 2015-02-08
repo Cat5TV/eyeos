@@ -6,9 +6,9 @@ class MetaDataConverter extends Kernel implements IMetaDataConverter {
 	private $Logger = null;
 	private $Handlers = null;
 	
-	public static function getInstance() {
+	public static function getInstance($class = __CLASS__) {
 		if (self::$Instance === null) {
-			self::$Instance = new MetaDataConverter();
+			self::$Instance = new $class();
 		}
 		return self::$Instance;
 	}

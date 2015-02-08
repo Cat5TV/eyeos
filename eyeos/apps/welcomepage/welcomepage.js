@@ -41,12 +41,12 @@ qx.Class.define('eyeos.application.welcomepage', {
 		//Get the language of the user
 		var meta = eyeos.getCurrentUserData().metadata;
 		if(typeof meta['eyeos.user.language'] != undefined) {
-			this.__url = 'http://resources.eyeos.org/welcomepage/?ln='+meta['eyeos.user.language'];
+			this.__url = '/welcomepage/?ln='+meta['eyeos.user.language'];
 		}
     },
 
     members: {
-        __url: 'http://resources.eyeos.org/welcomepage/',
+        __url: '/welcomepage/',
         __customWidth: 480,
         __customHeight: 480,
         drawGUI: function() {

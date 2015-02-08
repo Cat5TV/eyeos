@@ -149,9 +149,9 @@ class MetaManager extends Kernel implements IMetaDataManager {
 		);
 	}
 
-	public static function getInstance() {
+	public static function getInstance($class = __CLASS__) {
 		if (self::$Instance === null) {
-			self::$Instance = new MetaManager();
+			self::$Instance = new $class();
 		}
 		return self::$Instance;
 	}

@@ -36,8 +36,7 @@
  * @subpackage Memory
  */
 class MemoryManager extends Kernel {
-	public static function getInstance() {
-		return parent::getInstance(DEFAULT_MEMORYMANAGER);
+	public static function getInstance($class = DEFAULT_MEMORYMANAGER) {
+		return parent::getInstance($class);
 	}
 }
-?>

@@ -36,8 +36,8 @@
  * @subpackage MMap
  */
 class MMapAPI extends Kernel implements IMMap {
-	public static function getInstance() {
-		return parent::getInstance(__CLASS__);
+	public static function getInstance($class = __CLASS__) {
+		return parent::getInstance($class);
 	}
 	 
 	public function checkRequest(MMapRequest $request) {
